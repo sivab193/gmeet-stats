@@ -381,11 +381,11 @@ function renderTableRows(records) {
         const displayTime = convertUTCToTimezone(r.start_time, currentTimezone);
 
         tr.innerHTML = `
-            <td><span class="badge-code">${r.meeting_code}</span></td>
-            <td>${displayTime}</td>
-            <td style="font-weight: 600;">${r.duration_fmt}</td>
-            <td>${r.day_of_week}</td>
-            <td>${partBadge}</td>
+            <td class="whitespace-nowrap"><span class="badge-code whitespace-nowrap inline-block font-mono min-w-max">${r.meeting_code}</span></td>
+            <td class="whitespace-nowrap">${displayTime}</td>
+            <td style="font-weight: 600;" class="whitespace-nowrap">${r.duration_fmt}</td>
+            <td class="whitespace-nowrap">${r.day_of_week}</td>
+            <td class="whitespace-nowrap">${partBadge}</td>
         `;
         tbody.appendChild(tr);
     });
