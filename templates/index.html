@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Meet Takeout Analytics Dashboard | AI Insights & Metrics</title>
+    <meta name="description" content="Interactive analytics and behavioral insights dashboard derived from Google Meet Takeout conference history data.">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Navigation Header -->
+        <header class="navbar">
+            <div class="brand">
+                <div class="brand-icon">📹</div>
+                <div>
+                    <h1>Meet Analyzer Intelligence</h1>
+                    <p>Google Takeout Conference History Dashboard</p>
+                </div>
+            </div>
+            <div class="nav-controls">
+                <div class="filter-group">
+                    <label for="filter-year">Year:</label>
+                    <select id="filter-year" class="select-modern">
+                        <option value="ALL">All Time</option>
+                    </select>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <!-- KPI Summary Cards -->
+            <section class="kpi-grid" aria-label="Key Performance Indicators">
+                <div class="glass-card">
+                    <div class="kpi-title">
+                        <span>Total Meetings</span>
+                        <span class="kpi-icon icon-purple">📊</span>
+                    </div>
+                    <div class="kpi-value" id="kpi-total">0</div>
+                    <div class="kpi-subtitle">Recorded in conference history</div>
+                </div>
+
+                <div class="glass-card">
+                    <div class="kpi-title">
+                        <span>Time in Syncs</span>
+                        <span class="kpi-icon icon-pink">⏱️</span>
+                    </div>
+                    <div class="kpi-value" id="kpi-hours">0 hrs</div>
+                    <div class="kpi-subtitle" id="kpi-days-sub">~0 full days of sync</div>
+                </div>
+
+                <div class="glass-card">
+                    <div class="kpi-title">
+                        <span>Avg Duration</span>
+                        <span class="kpi-icon icon-cyan">📉</span>
+                    </div>
+                    <div class="kpi-value" id="kpi-avg">0 min</div>
+                    <div class="kpi-subtitle">Average call length</div>
+                </div>
+
+                <div class="glass-card">
+                    <div class="kpi-title">
+                        <span>Longest Session</span>
+                        <span class="kpi-icon icon-emerald">🏆</span>
+                    </div>
+                    <div class="kpi-value" id="kpi-longest">0m</div>
+                    <div class="kpi-subtitle" id="kpi-longest-sub">No meetings found</div>
+                </div>
+            </section>
+
+            <!-- Primary Charts Grid -->
+            <section class="charts-grid" aria-label="Meeting Volume and Distribution Charts">
+                <div class="glass-card">
+                    <div class="chart-header">
+                        <h3>Monthly Meeting Volume & Hours</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="trendChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="glass-card">
+                    <div class="chart-header">
+                        <h3>Duration Breakdown</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="durationChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Secondary Charts Grid -->
+            <section class="charts-grid" aria-label="Activity Heatmaps">
+                <div class="glass-card">
+                    <div class="chart-header">
+                        <h3>Activity by Day of Week</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="heatmapChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="glass-card">
+                    <div class="chart-header">
+                        <h3>Most Frequented Meeting Rooms</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="roomsChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- AI Behavioral Insights Grid -->
+            <section class="section-header" aria-label="Behavioral Insights">
+                <h2>Behavioral Heuristics & Insights</h2>
+                <p>Automated telemetry analysis derived from your meeting rhythms and patterns.</p>
+            </section>
+            <div class="insights-grid" id="insights-grid">
+                <!-- Dynamic Insight Cards -->
+            </div>
+
+            <!-- Searchable Meeting History Table -->
+            <section class="glass-card" aria-label="Raw Meeting Records">
+                <div class="table-controls">
+                    <div class="section-header" style="margin-bottom: 0;">
+                        <h2>Conference Records Explorer</h2>
+                        <p>Search and filter through raw Google Meet history</p>
+                    </div>
+                    <div class="search-box">
+                        <span>🔍</span>
+                        <input type="text" id="table-search" placeholder="Search room code or date...">
+                    </div>
+                </div>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Meeting Code</th>
+                                <th>Start Time (UTC)</th>
+                                <th>Duration</th>
+                                <th>Day</th>
+                                <th>Participation</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pagination">
+                    <button class="btn-page" id="btn-prev" disabled>Previous</button>
+                    <span id="page-info" style="font-size: 0.85rem; color: var(--text-muted);">Page 1 of 1</span>
+                    <button class="btn-page" id="btn-next" disabled>Next</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="/static/js/main.js"></script>
+</body>
+</html>

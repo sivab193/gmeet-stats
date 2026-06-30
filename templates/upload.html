@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meet Analyzer — Google Meet Takeout Intelligence</title>
+    <meta name="description" content="Analyze your Google Meet Takeout data. Get meeting insights, behavioral heuristics, and interactive charts instantly.">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body class="upload-centered-body">
+    <!-- Top Bar -->
+    <div class="upload-topbar">
+        <div class="upload-brand">
+            <div class="brand-icon-sm">📹</div>
+            <span class="brand-name">Meet Analyzer</span>
+        </div>
+        <a href="/dashboard?mode=owner" class="btn-my-stats">
+            <span>📊 View My Stats</span>
+        </a>
+    </div>
+
+    <!-- Centered Hero + Upload Box -->
+    <main class="upload-main-centered">
+        <div class="upload-content-wrapper">
+            <div class="upload-hero-text">
+                <h1 class="upload-title">Unlock your<br><span class="gradient-text">meeting insights</span></h1>
+                <p class="upload-desc">Drop your Google Takeout CSV file to generate interactive charts, behavioral patterns, and meeting habits instantly.</p>
+            </div>
+
+            <div class="upload-card-centered glass-card">
+                <form id="upload-form" enctype="multipart/form-data">
+                    <div class="upload-zone" id="upload-zone">
+                        <div class="upload-zone-icon">📤</div>
+                        <p class="upload-zone-title">Drop <code>conference_history_records.csv</code> here</p>
+                        <p class="upload-zone-sub">or click to browse</p>
+                        <input type="file" id="records_file" name="records_file" accept=".csv" required hidden>
+                    </div>
+
+                    <div class="selected-file" id="selected-file" style="display:none;">
+                        <span class="file-icon">📄</span>
+                        <div class="file-info">
+                            <span class="file-name" id="file-name"></span>
+                            <span class="file-size" id="file-size"></span>
+                        </div>
+                        <button type="button" class="btn-clear" id="btn-clear" title="Remove">✕</button>
+                    </div>
+
+                    <button type="submit" class="btn-analyze" id="btn-analyze" disabled>
+                        <span id="btn-text">Analyze My Data →</span>
+                        <span id="btn-loader" style="display:none;">⏳ Processing…</span>
+                    </button>
+                </form>
+                <div id="upload-error" class="upload-error" style="display:none;"></div>
+            </div>
+
+            <!-- 3 Mini Steps -->
+            <div class="steps-row-horizontal">
+                <div class="step-mini-horiz">
+                    <span class="step-num">1</span>
+                    <div>
+                        <strong>Export from Google</strong>
+                        <p><a href="https://takeout.google.com" target="_blank" rel="noopener">takeout.google.com</a> → Meet</p>
+                    </div>
+                </div>
+                <div class="step-mini-horiz">
+                    <span class="step-num">2</span>
+                    <div>
+                        <strong>Upload CSV</strong>
+                        <p>Select <code>conference_history_records.csv</code></p>
+                    </div>
+                </div>
+                <div class="step-mini-horiz">
+                    <span class="step-num">3</span>
+                    <div>
+                        <strong>Explore Dashboard</strong>
+                        <p>Instant visual analytics & trends</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Usual Fixed Footer -->
+    <footer class="custom-footer">
+        <div class="custom-footer-content">
+            <p class="custom-footer-text">
+                Build open source and Automate
+            </p>
+            <div class="custom-footer-links">
+                <a href="https://siv19.dev/" target="_blank" rel="noopener noreferrer">siv19.dev</a>
+                <a href="https://github.com/sivab193" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                    <svg class="custom-footer-icon" viewBox="0 0 24 24" width="17" height="17" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg>
+                </a>
+                <a href="https://www.linkedin.com/in/sivab193/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                    <svg class="custom-footer-icon" viewBox="0 0 24 24" width="17" height="17" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                </a>
+                <a href="https://www.instagram.com/sivab193/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                    <svg class="custom-footer-icon" viewBox="0 0 24 24" width="17" height="17" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+<script>
+const uploadZone   = document.getElementById('upload-zone');
+const fileInput    = document.getElementById('records_file');
+const selectedFile = document.getElementById('selected-file');
+const fileNameEl   = document.getElementById('file-name');
+const fileSizeEl   = document.getElementById('file-size');
+const btnAnalyze   = document.getElementById('btn-analyze');
+const btnClear     = document.getElementById('btn-clear');
+const form         = document.getElementById('upload-form');
+const errorDiv     = document.getElementById('upload-error');
+const btnText      = document.getElementById('btn-text');
+const btnLoader    = document.getElementById('btn-loader');
+
+uploadZone.addEventListener('click', () => fileInput.click());
+uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('drag-over'); });
+uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('drag-over'));
+uploadZone.addEventListener('drop', e => {
+    e.preventDefault(); uploadZone.classList.remove('drag-over');
+    if (e.dataTransfer.files.length) { fileInput.files = e.dataTransfer.files; showFile(e.dataTransfer.files[0]); }
+});
+fileInput.addEventListener('change', () => { if (fileInput.files.length) showFile(fileInput.files[0]); });
+
+btnClear.addEventListener('click', () => {
+    fileInput.value = ''; selectedFile.style.display = 'none';
+    uploadZone.style.display = 'flex'; btnAnalyze.disabled = true; errorDiv.style.display = 'none';
+});
+
+function showFile(f) {
+    fileNameEl.textContent = f.name;
+    fileSizeEl.textContent = f.size < 1048576 ? (f.size/1024).toFixed(1)+' KB' : (f.size/1048576).toFixed(1)+' MB';
+    selectedFile.style.display = 'flex'; uploadZone.style.display = 'none';
+    btnAnalyze.disabled = false; errorDiv.style.display = 'none';
+}
+
+form.addEventListener('submit', async e => {
+    e.preventDefault();
+    btnText.style.display = 'none'; btnLoader.style.display = 'inline'; btnAnalyze.disabled = true;
+    errorDiv.style.display = 'none';
+    try {
+        const fd = new FormData(); fd.append('records_file', fileInput.files[0]);
+        const r = await fetch('/api/upload', { method: 'POST', body: fd });
+        const result = await r.json();
+        if (result.success) { window.location.href = '/dashboard'; }
+        else { showError(result.error || 'Upload failed.'); }
+    } catch { showError('Network error. Is the server running?'); }
+});
+
+function showError(msg) {
+    errorDiv.textContent = msg; errorDiv.style.display = 'block';
+    btnText.style.display = 'inline'; btnLoader.style.display = 'none'; btnAnalyze.disabled = false;
+}
+</script>
+</body>
+</html>
