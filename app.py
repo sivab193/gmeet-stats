@@ -6,6 +6,10 @@ try:
     from flask import Flask, request, jsonify, send_from_directory, redirect
     FLASK_AVAILABLE = True
 except ImportError:
+    class Flask:
+        def __init__(self, *args, **kwargs): pass
+        def route(self, *args, **kwargs): return lambda f: f
+        def run(self, *args, **kwargs): pass
     FLASK_AVAILABLE = False
 
 # ─── Pre-load owner's public stats from bundled CSV ───────────────────────────
@@ -25,10 +29,10 @@ def _get_active_records():
         return _uploaded_records
     return _get_static_records()
 
-# ─── Flask App ─────────────────────────────────────────────────────────────────
-if FLASK_AVAILABLE:
-    app = Flask(__name__, template_folder="templates", static_folder="static")
+# ─── Flask App (Top-Level for Vercel Serverless Runtime) ───────────────────────
+app = Flask(__name__, template_folder="templates", static_folder="static")
 
+if FLASK_AVAILABLE:
     @app.route("/")
     def home():
         return send_from_directory(os.path.join(BASE_DIR, "templates"), "upload.html")
