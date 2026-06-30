@@ -488,14 +488,17 @@ tbody tr:hover {
     color: var(--text-main);
 }
 
-/* ================ UPLOAD PAGE — Centered Single-Screen ================ */
+/* ================ UPLOAD PAGE — Responsive Mobile-First ================ */
 .upload-centered-body {
     margin: 0;
     padding: 0;
-    height: 100vh;
-    overflow: hidden;
+    min-height: 100vh;
+    height: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     background-color: var(--bg-primary);
     color: var(--text-main);
     background-image: 

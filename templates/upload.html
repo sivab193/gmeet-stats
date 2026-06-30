@@ -5,99 +5,134 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meet Analyzer — Google Meet Takeout Intelligence</title>
     <meta name="description" content="Analyze your Google Meet Takeout data. Get meeting insights, behavioral heuristics, and interactive charts instantly.">
+    <!-- Tailwind CSS CDN for Mobile-First Responsive Utilities -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#070913',
+                        secondary: '#0d1224',
+                        accent: '#6366F1',
+                        pinky: '#EC4899',
+                    },
+                    fontFamily: {
+                        heading: ['Outfit', 'sans-serif'],
+                        body: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 </head>
-<body class="upload-centered-body">
-    <!-- Top Bar -->
-    <div class="upload-topbar">
-        <div class="upload-brand">
-            <div class="brand-icon-sm">📹</div>
-            <span class="brand-name">Meet Analyzer</span>
+<body class="min-h-screen bg-[#070913] text-[#F8FAFC] font-['Inter'] flex flex-col justify-between overflow-x-hidden bg-[radial-gradient(circle_at_50%_20%,rgba(99,102,241,0.18)_0%,transparent_60%),radial-gradient(circle_at_85%_80%,rgba(236,72,153,0.1)_0%,transparent_50%)]">
+    
+    <!-- 2. Navigation Bar -->
+    <header class="w-full px-4 py-3 md:px-8 md:py-4 flex items-center justify-between border-b border-white/[0.05] bg-[#070913]/60 backdrop-blur-md">
+        <div class="flex items-center gap-2 md:gap-3">
+            <div class="w-8 h-8 md:w-10 md:h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-pink-500 flex items-center justify-center text-base md:text-lg shadow-lg shadow-indigo-500/20">📹</div>
+            <span class="font-['Outfit'] font-bold text-base md:text-xl tracking-tight text-white">Meet Analyzer</span>
         </div>
-        <a href="/dashboard?mode=owner" class="btn-my-stats">
+        <a href="/dashboard?mode=owner" class="flex items-center gap-1.5 px-3 py-1.5 md:px-5 md:py-2.5 text-xs md:text-sm font-semibold rounded-xl bg-gradient-to-r from-indigo-500/20 to-purple-500/20 border border-purple-500/40 text-slate-200 hover:from-indigo-500 hover:to-pink-500 hover:text-white hover:-translate-y-0.5 transition-all duration-300 shadow-md">
             <span>📊 View My Stats</span>
         </a>
-    </div>
+    </header>
 
-    <!-- Centered Hero + Upload Box -->
-    <main class="upload-main-centered">
-        <div class="upload-content-wrapper">
-            <div class="upload-hero-text">
-                <h1 class="upload-title">Unlock your<br><span class="gradient-text">meeting insights</span></h1>
-                <p class="upload-desc">Drop your Google Takeout CSV file to generate interactive charts, behavioral patterns, and meeting habits instantly.</p>
+    <!-- 1. Global Layout: py-8 on mobile, py-12 on desktop -->
+    <main class="w-full flex-1 flex flex-col items-center justify-center py-8 md:py-12 pb-24 md:pb-28">
+        <div class="w-full max-w-3xl mx-auto flex flex-col items-center">
+            
+            <!-- 3. Hero Section (Title & Subtitle) -->
+            <div class="text-center px-4 mb-6 md:mb-8">
+                <h1 class="font-['Outfit'] text-3xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight mb-2 md:mb-3">
+                    Unlock your<br>
+                    <span class="bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">meeting insights</span>
+                </h1>
+                <p class="text-sm md:text-base text-slate-400 max-w-xl mx-auto leading-relaxed">
+                    Drop your Google Takeout CSV file to generate interactive charts, behavioral patterns, and meeting habits instantly.
+                </p>
             </div>
 
-            <div class="upload-card-centered glass-card">
-                <form id="upload-form" enctype="multipart/form-data">
-                    <div class="upload-zone" id="upload-zone">
-                        <div class="upload-zone-icon">📤</div>
-                        <p class="upload-zone-title">Drop <code>conference_history_records.csv</code> here</p>
-                        <p class="upload-zone-sub">or click to browse</p>
-                        <input type="file" id="records_file" name="records_file" accept=".csv" required hidden>
-                    </div>
-
-                    <div class="selected-file" id="selected-file" style="display:none;">
-                        <span class="file-icon">📄</span>
-                        <div class="file-info">
-                            <span class="file-name" id="file-name"></span>
-                            <span class="file-size" id="file-size"></span>
+            <!-- 4. The Dropzone Component -->
+            <div class="w-full px-4 md:px-0 max-w-2xl">
+                <div class="w-full p-5 md:p-8 rounded-2xl bg-[#121931]/65 backdrop-blur-md border border-white/10 shadow-2xl transition-all duration-300">
+                    <form id="upload-form" enctype="multipart/form-data" class="flex flex-col gap-4">
+                        <div class="w-full flex flex-col items-center justify-center p-6 md:p-8 rounded-xl border-2 border-dashed border-indigo-500/30 hover:border-indigo-500 hover:bg-indigo-500/5 cursor-pointer transition-all duration-300 text-center group" id="upload-zone">
+                            <div class="text-3xl md:text-4xl mb-2 group-hover:scale-110 transition-transform duration-300">📤</div>
+                            <p class="text-sm md:text-base font-medium text-slate-200">Drop <code class="bg-indigo-500/20 text-indigo-300 px-1.5 py-0.5 rounded text-xs md:text-sm">conference_history_records.csv</code> here</p>
+                            <p class="text-xs text-slate-400 mt-1">or click to browse from your device</p>
+                            <input type="file" id="records_file" name="records_file" accept=".csv" required hidden>
                         </div>
-                        <button type="button" class="btn-clear" id="btn-clear" title="Remove">✕</button>
-                    </div>
 
-                    <button type="submit" class="btn-analyze" id="btn-analyze" disabled>
-                        <span id="btn-text">Analyze My Data →</span>
-                        <span id="btn-loader" style="display:none;">⏳ Processing…</span>
-                    </button>
-                </form>
-                <div id="upload-error" class="upload-error" style="display:none;"></div>
+                        <div class="selected-file flex items-center justify-between p-3.5 rounded-xl bg-white/5 border border-white/10" id="selected-file" style="display:none;">
+                            <div class="flex items-center gap-3 overflow-hidden">
+                                <span class="text-xl">📄</span>
+                                <div class="flex flex-col overflow-hidden">
+                                    <span class="text-sm font-medium text-white truncate" id="file-name"></span>
+                                    <span class="text-xs text-slate-400" id="file-size"></span>
+                                </div>
+                            </div>
+                            <button type="button" class="text-slate-400 hover:text-white p-1.5 rounded-lg hover:bg-white/10 transition" id="btn-clear" title="Remove">✕</button>
+                        </div>
+
+                        <button type="submit" class="w-full py-3 px-6 rounded-xl font-semibold bg-gradient-to-r from-indigo-500 to-pink-500 text-white hover:opacity-95 hover:shadow-lg hover:shadow-indigo-500/25 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 flex items-center justify-center gap-2" id="btn-analyze" disabled>
+                            <span id="btn-text">Analyze My Data →</span>
+                            <span id="btn-loader" style="display:none;">⏳ Processing…</span>
+                        </button>
+                    </form>
+                    <div id="upload-error" class="mt-3 p-3 rounded-xl bg-red-500/20 border border-red-500/40 text-red-200 text-xs md:text-sm text-center" style="display:none;"></div>
+                </div>
             </div>
 
-            <!-- 3 Mini Steps -->
-            <div class="steps-row-horizontal">
-                <div class="step-mini-horiz">
-                    <span class="step-num">1</span>
-                    <div>
-                        <strong>Export from Google</strong>
-                        <p><a href="https://takeout.google.com" target="_blank" rel="noopener">takeout.google.com</a> → Meet</p>
+            <!-- 5. Bottom Instruction Cards (3 Steps) -->
+            <div class="w-full max-w-2xl px-4 md:px-0 mt-6 md:mt-8 flex flex-col md:grid md:grid-cols-3 gap-3 md:gap-4">
+                <div class="w-full flex items-start gap-3 p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.05] hover:border-white/10 transition">
+                    <span class="w-6 h-6 shrink-0 rounded-full bg-gradient-to-br from-indigo-500 to-pink-500 flex items-center justify-center font-['Outfit'] font-bold text-xs text-white">1</span>
+                    <div class="flex flex-col">
+                        <strong class="text-xs md:text-sm font-semibold text-slate-200 mb-0.5">Export from Google</strong>
+                        <p class="text-xs text-slate-400 leading-relaxed"><a href="https://takeout.google.com" target="_blank" rel="noopener" class="text-indigo-400 hover:underline">takeout.google.com</a> → Meet</p>
                     </div>
                 </div>
-                <div class="step-mini-horiz">
-                    <span class="step-num">2</span>
-                    <div>
-                        <strong>Upload CSV</strong>
-                        <p>Select <code>conference_history_records.csv</code></p>
+                <div class="w-full flex items-start gap-3 p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.05] hover:border-white/10 transition">
+                    <span class="w-6 h-6 shrink-0 rounded-full bg-gradient-to-br from-indigo-500 to-pink-500 flex items-center justify-center font-['Outfit'] font-bold text-xs text-white">2</span>
+                    <div class="flex flex-col">
+                        <strong class="text-xs md:text-sm font-semibold text-slate-200 mb-0.5">Upload CSV</strong>
+                        <p class="text-xs text-slate-400 leading-relaxed">Select <code class="bg-indigo-500/20 text-indigo-300 px-1 py-0.5 rounded text-[10px]">conference_history_records.csv</code></p>
                     </div>
                 </div>
-                <div class="step-mini-horiz">
-                    <span class="step-num">3</span>
-                    <div>
-                        <strong>Explore Dashboard</strong>
-                        <p>Instant visual analytics & trends</p>
+                <div class="w-full flex items-start gap-3 p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.05] hover:border-white/10 transition">
+                    <span class="w-6 h-6 shrink-0 rounded-full bg-gradient-to-br from-indigo-500 to-pink-500 flex items-center justify-center font-['Outfit'] font-bold text-xs text-white">3</span>
+                    <div class="flex flex-col">
+                        <strong class="text-xs md:text-sm font-semibold text-slate-200 mb-0.5">Explore Dashboard</strong>
+                        <p class="text-xs text-slate-400 leading-relaxed">Instant visual analytics & trends</p>
                     </div>
                 </div>
             </div>
+
         </div>
     </main>
 
-    <!-- Usual Fixed Footer -->
-    <footer class="custom-footer">
-        <div class="custom-footer-content">
-            <p class="custom-footer-text">
+    <!-- 6. Footer -->
+    <footer class="w-full fixed bottom-0 left-0 right-0 z-50 bg-[#070913]/90 backdrop-blur-md border-t border-white/10 py-3.5 px-4 md:px-8">
+        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+            <p class="text-xs md:text-sm text-slate-400">
                 Build open source and Automate
             </p>
-            <div class="custom-footer-links">
-                <a href="https://siv19.dev/" target="_blank" rel="noopener noreferrer">siv19.dev</a>
-                <a href="https://github.com/sivab193" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-                    <svg class="custom-footer-icon" viewBox="0 0 24 24" width="17" height="17" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg>
+            <div class="flex flex-wrap items-center justify-center gap-4 text-xs md:text-sm">
+                <a href="https://siv19.dev/" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-indigo-400 font-medium transition">siv19.dev</a>
+                <a href="https://github.com/sivab193" target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="text-slate-400 hover:text-indigo-400 transition">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg>
                 </a>
-                <a href="https://www.linkedin.com/in/sivab193/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-                    <svg class="custom-footer-icon" viewBox="0 0 24 24" width="17" height="17" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                <a href="https://www.linkedin.com/in/sivab193/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="text-slate-400 hover:text-indigo-400 transition">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
                 </a>
-                <a href="https://www.instagram.com/sivab193/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-                    <svg class="custom-footer-icon" viewBox="0 0 24 24" width="17" height="17" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
+                <a href="https://www.instagram.com/siv19.dev/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="text-slate-400 hover:text-indigo-400 transition">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
                 </a>
             </div>
         </div>
@@ -117,10 +152,10 @@ const btnText      = document.getElementById('btn-text');
 const btnLoader    = document.getElementById('btn-loader');
 
 uploadZone.addEventListener('click', () => fileInput.click());
-uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('drag-over'); });
-uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('drag-over'));
+uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('border-indigo-500', 'bg-indigo-500/10'); });
+uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('border-indigo-500', 'bg-indigo-500/10'));
 uploadZone.addEventListener('drop', e => {
-    e.preventDefault(); uploadZone.classList.remove('drag-over');
+    e.preventDefault(); uploadZone.classList.remove('border-indigo-500', 'bg-indigo-500/10');
     if (e.dataTransfer.files.length) { fileInput.files = e.dataTransfer.files; showFile(e.dataTransfer.files[0]); }
 });
 fileInput.addEventListener('change', () => { if (fileInput.files.length) showFile(fileInput.files[0]); });
