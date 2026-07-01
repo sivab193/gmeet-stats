@@ -116,7 +116,7 @@ if FLASK_AVAILABLE:
         if not file.filename or not file.filename.endswith(".csv"):
             return jsonify({"error": "Invalid file. Please upload a .csv file."}), 400
 
-        tmp_path = os.path.join(BASE_DIR, "_upload_tmp.csv")
+        tmp_path = os.path.join("/tmp", "_upload_tmp.csv")
         try:
             file.save(tmp_path)
             records = analyzer.load_and_clean_data(filepath=tmp_path)
@@ -229,7 +229,7 @@ else:
                         break
             if not csv_data:
                 self.send_json({"error": "No CSV file found in upload"}, 400); return
-            tmp = os.path.join(BASE_DIR, "_upload_tmp.csv")
+            tmp = os.path.join("/tmp", "_upload_tmp.csv")
             try:
                 with open(tmp, "w", encoding="utf-8") as f: f.write(csv_data)
                 records = analyzer.load_and_clean_data(filepath=tmp)
